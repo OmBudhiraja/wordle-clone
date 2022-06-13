@@ -183,14 +183,7 @@ function App() {
       const isLetter = e.key.match(/^[a-zA-Z]{1}$/) !== null;
       isLetter && setCurrentGuess((prev) => prev + e.key.toLowerCase());
     },
-    [
-      currentGuess.length,
-      gameOver,
-      guesses,
-      onBackspacePressed,
-      onEnterPressed,
-      word.length,
-    ]
+    [currentGuess, gameOver, guesses, onBackspacePressed, onEnterPressed, word]
   );
 
   function fetchWord() {
