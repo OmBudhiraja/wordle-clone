@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { swDev } from './swDev';
 
 if (process.env.NODE_ENV === 'production') {
   disableReactDevTools();
@@ -15,4 +15,4 @@ root.render(
   </React.StrictMode>
 );
 
-serviceWorkerRegistration.register();
+swDev();

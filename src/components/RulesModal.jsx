@@ -25,14 +25,12 @@ const RulesModal = ({ isOpen, handleClose }) => {
         <p>
           Guess the <strong>WORDLE</strong> in six tries.
         </p>
+        <p>Each guess must be a valid five-letter word. Hit the enter button to submit.</p>
         <p>
-          Each guess must be a valid five-letter word. Hit the enter button to
-          submit.
+          After each guess, the color of the tiles will change to show how close your guess was to
+          the word.
         </p>
-        <p>
-          After each guess, the color of the tiles will change to show how close
-          your guess was to the word.
-        </p>
+
         <div className="examples">
           <p>Examples</p>
           <div className="example">
@@ -44,8 +42,7 @@ const RulesModal = ({ isOpen, handleClose }) => {
               <div className="box box-sm">Y</div>
             </div>
             <p>
-              The letter <strong>W</strong> is in the word and in the correct
-              spot.
+              The letter <strong>W</strong> is in the word and in the correct spot.
             </p>
           </div>
           <div className="example">
@@ -57,8 +54,7 @@ const RulesModal = ({ isOpen, handleClose }) => {
               <div className="box box-sm">S</div>
             </div>
             <p>
-              The letter <strong>W</strong> is in the word and in the correct
-              spot.
+              The letter <strong>W</strong> is in the word and in the correct spot.
             </p>
           </div>
           <div className="example">
@@ -70,14 +66,25 @@ const RulesModal = ({ isOpen, handleClose }) => {
               <div className="box box-sm">E</div>
             </div>
             <p>
-              The letter <strong>W</strong> is in the word and in the correct
-              spot.
+              The letter <strong>W</strong> is in the word and in the correct spot.
             </p>
           </div>
         </div>
         <p>
           <strong>A new WORDLE will be given in every new game.</strong>
         </p>
+
+        <div className="attribution">
+          Made by{' '}
+          <a href="https://github.com/OmBudhiraja" target="_blank" rel="noreferrer">
+            Om Budhiraja
+          </a>
+          |
+          <a href="https://github.com/OmBudhiraja/wordle-clone" target="_blank" rel="noreferrer">
+            Github Repo
+          </a>
+        </div>
+
         <div className="close-icon" onClick={handleClose}>
           <AiOutlineClose size={24} />
         </div>
