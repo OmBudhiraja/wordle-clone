@@ -3,24 +3,34 @@ import { AiOutlineClose } from 'react-icons/ai';
 import ReactPortal from './ReactPortal';
 
 const RulesModal = ({ isOpen, handleClose }) => {
-  const contentRef = useRef();
+  const contentRef = useRef(null);
 
   useEffect(() => {
-    function stopPropogating(e) {
-      console.log('content div');
-      e.stopPropagation();
-    }
-    const element = contentRef.current;
-    element?.addEventListener('click', stopPropogating);
+    const outsideClickListener = (e) => {
+      if (contentRef.current?.contains(e.target)) return;
+      contentRef.current?.classList.add('closing');
+      contentRef.current?.addEventListener('animationend', handleClose);
+    };
+
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        contentRef.current?.classList.add('closing');
+        contentRef.current?.addEventListener('animationend', handleClose);
+      }
+    };
+
+    document.body.addEventListener('click', outsideClickListener);
+    document.body.addEventListener('keydown', handleEscape);
 
     return () => {
-      element?.removeEventListener('click', stopPropogating);
+      document.body.removeEventListener('click', outsideClickListener);
+      document.body.removeEventListener('keydown', handleEscape);
     };
-  }, []);
+  }, [handleClose]);
 
   if (!isOpen) return null;
   return (
-    <ReactPortal wrapperId="rules-modal" handleClick={handleClose}>
+    <ReactPortal wrapperId="rules-modal">
       <div className="rules-modal-content" ref={contentRef}>
         <p>
           Guess the <strong>WORDLE</strong> in six tries.

@@ -47,9 +47,7 @@ function App() {
   const updateWordsStats = (key, character) => {
     setWordsStats((prev) => ({
       ...prev,
-      [key]: prev[key].includes(character)
-        ? prev[key]
-        : [...prev[key], character],
+      [key]: prev[key].includes(character) ? prev[key] : [...prev[key], character],
     }));
   };
 
@@ -93,10 +91,7 @@ function App() {
       return;
     }
 
-    if (
-      guesses.findIndex((guess) => guess === null) ===
-      AVAILABLE_GUESESS - 1
-    ) {
+    if (guesses.findIndex((guess) => guess === null) === AVAILABLE_GUESESS - 1) {
       setGameOver(true);
       setShowAnswer(true);
     }
@@ -119,18 +114,11 @@ function App() {
     setCurrentGuess('');
   }, [currentGuess, guesses, word]);
 
-  const onBackspacePressed = useCallback(
-    () => setCurrentGuess((prev) => prev.slice(0, -1)),
-    []
-  );
+  const onBackspacePressed = useCallback(() => setCurrentGuess((prev) => prev.slice(0, -1)), []);
 
   const onKeyClick = useCallback(
     (key) => {
-      if (
-        gameOver ||
-        !word.length ||
-        guesses.findIndex((guess) => guess === null) === -1
-      ) {
+      if (gameOver || !word.length || guesses.findIndex((guess) => guess === null) === -1) {
         return;
       }
 
@@ -153,7 +141,26 @@ function App() {
 
   const handleKeyPress = useCallback(
     (e) => {
+      if (showRulesModal) return;
+
+      // default behaviour in Tab key
+      if (e.key === 'Tab') return;
+
+      if (document.activeElement.tabIndex === 0) {
+        if (e.code === 'Enter') return;
+        document.activeElement?.blur?.();
+      }
+
       e.preventDefault();
+
+      if (e.ctrlKey && e.code === 'KeyR') {
+        window.location.reload();
+      }
+
+      if (e.ctrlKey && e.code === 'KeyQ') {
+        setShowRulesModal(true);
+      }
+
       if (e.ctrlKey && e.code === 'Backspace') {
         setCurrentGuess('');
         return;
@@ -183,7 +190,7 @@ function App() {
       const isLetter = e.key.match(/^[a-zA-Z]{1}$/) !== null;
       isLetter && setCurrentGuess((prev) => prev + e.key.toLowerCase());
     },
-    [currentGuess, gameOver, guesses, onBackspacePressed, onEnterPressed, word]
+    [currentGuess, gameOver, guesses, onBackspacePressed, onEnterPressed, word, showRulesModal]
   );
 
   function fetchWord() {
@@ -211,9 +218,10 @@ function App() {
   return (
     <div className="app">
       <header className="header">
-        <div className="rules-icon" onClick={() => setShowRulesModal(true)}>
-          <AiOutlineQuestionCircle size={30} />
-        </div>
+        <button className="rules-icon" onClick={() => setShowRulesModal(true)}>
+          <AiOutlineQuestionCircle aria-hidden="true" size={30} />
+          <span className="sr-only">Game Rules</span>
+        </button>
         <h1>Worlde</h1>
       </header>
       <main
@@ -222,8 +230,7 @@ function App() {
       >
         <section className="board">
           {guesses.map((guess, index) => {
-            const isCurrentGuess =
-              index === guesses.findIndex((guess) => guess === null);
+            const isCurrentGuess = index === guesses.findIndex((guess) => guess === null);
             return (
               <GuessRow
                 key={index}
@@ -241,10 +248,7 @@ function App() {
           <Keyboard wordsStats={wordsStats} onKeyClick={onKeyClick} />
         </section>
       </main>
-      <RulesModal
-        isOpen={showRulesModal}
-        handleClose={() => setShowRulesModal(false)}
-      />
+      <RulesModal isOpen={showRulesModal} handleClose={() => setShowRulesModal(false)} />
       {toastMsg && <Toast message={toastMsg} setToastMsg={setToastMsg} />}
       {gameOver && (
         <div className="reset-game-container">

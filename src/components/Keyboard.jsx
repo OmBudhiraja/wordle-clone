@@ -22,15 +22,16 @@ function Keyboard({ onKeyClick, wordsStats }) {
       {rows.map((row, index) => (
         <div className="keyboard-row" key={index}>
           {row.map((key, index) => (
-            <div
+            <button
               key={index}
               className={`keyboard-key ${getBgClass(key)} ${
                 key === 'Enter' || key === 'Backspace' ? 'one-and-a-half' : ''
               } ${key === '' ? 'space' : ''}`}
               onClick={onKeyClick.bind(null, key)}
+              {...(key === '' && { tabIndex: '-1' })}
             >
               {key === 'Backspace' ? <AiOutlineCloseCircle size={28} /> : key}
-            </div>
+            </button>
           ))}
         </div>
       ))}

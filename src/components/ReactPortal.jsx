@@ -1,11 +1,7 @@
 import { useState, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-function ReactPortal({
-  children,
-  wrapperId = 'react-portal-wrapper',
-  handleClick,
-}) {
+function ReactPortal({ children, wrapperId = 'react-portal-wrapper' }) {
   const [wrapperElement, setWrapperElement] = useState(null);
 
   useLayoutEffect(() => {
@@ -17,15 +13,13 @@ function ReactPortal({
       element = createWrapperAndAppendToBody(wrapperId);
     }
     setWrapperElement(element);
-    handleClick && element.addEventListener('click', handleClick);
 
     return () => {
-      handleClick && element.removeEventListener('click', handleClick);
       if (systemCreated && element.parentNode) {
         element.parentNode.removeChild(element);
       }
     };
-  }, [handleClick, wrapperId]);
+  }, [wrapperId]);
 
   // wrapperElement state will be null on the very first render.
   if (wrapperElement === null) return null;

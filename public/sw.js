@@ -17,7 +17,6 @@ this.addEventListener('install', (event) => {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
           cache.addAll([...urlsToCache, data.files['main.css'], data.files['main.js']]);
         })
         .catch((err) => {
