@@ -146,6 +146,9 @@ function App() {
       // default behaviour in Tab key
       if (e.key === 'Tab') return;
 
+      // default behaviour for function keys
+      if (e.which >= 112 && e.which <= 123) return;
+
       if (document.activeElement.tabIndex === 0) {
         if (e.code === 'Enter') return;
         document.activeElement?.blur?.();

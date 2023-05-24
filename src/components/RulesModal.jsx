@@ -1,32 +1,34 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import useOnClickOutside from '../hooks/useOutsideClick';
 import ReactPortal from './ReactPortal';
 
 const RulesModal = ({ isOpen, handleClose }) => {
   const contentRef = useRef(null);
 
-  useEffect(() => {
-    const outsideClickListener = (e) => {
-      if (contentRef.current?.contains(e.target)) return;
-      contentRef.current?.classList.add('closing');
-      contentRef.current?.addEventListener('animationend', handleClose);
-    };
+  useOnClickOutside(contentRef, () => {
+    console.log('outside click');
+    contentRef.current?.classList.add('closing');
+    contentRef.current?.addEventListener('animationend', handleClose);
+  });
 
-    const handleEscape = (e) => {
+  const handleEscape = useCallback(
+    (e) => {
       if (e.key === 'Escape') {
         contentRef.current?.classList.add('closing');
         contentRef.current?.addEventListener('animationend', handleClose);
       }
-    };
+    },
+    [handleClose]
+  );
 
-    document.body.addEventListener('click', outsideClickListener);
-    document.body.addEventListener('keydown', handleEscape);
+  useEffect(() => {
+    document.addEventListener('keydown', handleEscape);
 
     return () => {
-      document.body.removeEventListener('click', outsideClickListener);
-      document.body.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('keydown', handleEscape);
     };
-  }, [handleClose]);
+  }, [handleEscape]);
 
   if (!isOpen) return null;
   return (
