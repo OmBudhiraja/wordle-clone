@@ -66,7 +66,7 @@ const RulesModal = ({ isOpen, handleClose }) => {
               <div className="box box-sm">S</div>
             </div>
             <p>
-              The letter <strong>W</strong> is in the word and in the correct spot.
+              <strong>I</strong> is in the word but in the wrong spot.
             </p>
           </div>
           <div className="example">
@@ -78,7 +78,7 @@ const RulesModal = ({ isOpen, handleClose }) => {
               <div className="box box-sm">E</div>
             </div>
             <p>
-              The letter <strong>W</strong> is in the word and in the correct spot.
+              <strong>U</strong> is not in the word in any spot.
             </p>
           </div>
         </div>
